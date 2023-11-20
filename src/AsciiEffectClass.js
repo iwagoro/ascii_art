@@ -19,22 +19,30 @@ class AsciiEffect {
         this.#bright = bright;
         this.#contrast = contrast;
         this.#gamma = gamma;
-        this.#ctx.font = `${font}px Verdana`;
+        this.#ctx.font = `bold ${font}px Verdana`;
         this.#ctx.drawImage(image1, 0, 0, this.#width, this.#height);
         this.#pixels = this.#ctx.getImageData(0, 0, this.#width, this.#height);
     }
 
     //アスキーアートとなる文字を決定する
     #convertToSymbol(g) {
-        const string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        const asciiChars = "*+=-:.";
-        if (g > 150) {
+        const string = ".*/●";
+        const asciiChars = ".";
+        const index = Math.round((g / 255) * string.length) - 1;
+        if (index < 0) return string[0];
+        if (index >= string.length) return string[string.length - 1];
+        return string[index];
+        /*
+        if (g > 200) {
             const index = Math.floor(Math.random() * string.length);
             return string[index];
+        } else if (g > 100) {
+            const index = Math.floor(Math.random() * string2.length);
+            return string2[index];
         } else {
             const index = Math.floor(Math.random() * asciiChars.length);
             return asciiChars[index];
-        }
+        }//*/
     }
 
     //画像の明るさ、コントラスト、ガンマ補正を行う
@@ -43,10 +51,10 @@ class AsciiEffect {
         color *= this.#bright;
 
         //  contrast
-        color = (color - 0.5) * this.#contrast + 0.5;
+        color = Math.round(((color / 255 - 0.5) * this.#contrast + 0.5) * 255);
 
         //  gamma
-        color = Math.pow(color, 1 / this.#gamma);
+        color = Math.pow(color / 255, this.#gamma) * 255;
 
         return color;
     }
@@ -73,8 +81,9 @@ class AsciiEffect {
                     const total = red + green + blue;
                     const averageColorValue = total / 3;
                     const color = "rgb(" + red + "," + green + "," + blue + ")";
+                    const monochrome = "rgb(" + averageColorValue + "," + averageColorValue + "," + averageColorValue + ")";
                     const symbol = this.#convertToSymbol(averageColorValue);
-                    if (total > 20) this.#imageCellArray.push(new Cell(x, y, symbol, color));
+                    if (total > 20) this.#imageCellArray.push(new Cell(x, y, symbol, monochrome));
                 }
             }
         }

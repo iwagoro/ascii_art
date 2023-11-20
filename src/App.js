@@ -19,7 +19,7 @@ function App() {
         image1.src = image;
 
         if (type) {
-            intervalRef.current = setInterval(() => copyFrame(), 1000 / 60);
+            intervalRef.current = setInterval(() => copyFrame(), 1000 / 30);
 
             // コンポーネントがアンマウントされたときにクリーンアップ
             return () => {
