@@ -52,7 +52,7 @@ function App() {
     return (
         <div className="App">
             <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <div style={{ maxWidth: "50vw", maxHeight: "100vh" }}>
+                <div style={{ maxWidth: "50vw", maxHeight: "100vh", display: "flex", flexDirection: "column" }}>
                     <video id="video" src={video} style={{ maxWidth: "50vw", maxHeight: "50vh" }} autoPlay loop></video>
                     <canvas id="canvas1" style={{ maxWidth: "50vw", maxHeight: "50vh" }}></canvas>
                 </div>
