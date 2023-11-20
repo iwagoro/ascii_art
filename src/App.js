@@ -86,20 +86,28 @@ function App() {
                         ></input>
                     </label>
 
-                    <label>Resolution</label>
-                    <Slider aria-label="res" sx={{ width: "20vw" }} min={10} max={40} step={1} value={res} valueLabelDisplay="on" onChange={(e) => resChange(e)} />
+                    <label>
+                        Resolution <Slider aria-label="res" size="small" sx={{ width: "20vw" }} min={10} max={40} step={1} value={res} valueLabelDisplay="on" onChange={(e) => resChange(e)} />
+                    </label>
 
-                    <label>font size</label>
-                    <Slider aria-label="font" sx={{ width: "20vw" }} min={6} max={40} step={1} value={font} valueLabelDisplay="on" onChange={(e) => fontChange(e)} />
+                    <label>
+                        font size
+                        <Slider aria-label="font" size="small" sx={{ width: "20vw" }} min={6} max={40} step={1} value={font} valueLabelDisplay="on" onChange={(e) => fontChange(e)} />
+                    </label>
 
-                    <label>bright</label>
-                    <Slider aria-label="font" sx={{ width: "20vw" }} min={0} max={3} step={0.1} value={bright} valueLabelDisplay="on" onChange={(e) => brightChange(e)} />
+                    <label>
+                        bright <Slider aria-label="font" size="small" sx={{ width: "20vw" }} min={0} max={3} step={0.1} value={bright} valueLabelDisplay="on" onChange={(e) => brightChange(e)} />
+                    </label>
 
-                    <label>contrast</label>
-                    <Slider aria-label="font" sx={{ width: "20vw" }} min={0} max={3} step={0.1} value={contrast} valueLabelDisplay="on" onChange={(e) => contrastChange(e)} />
+                    <label>
+                        contrast
+                        <Slider aria-label="font" size="small" sx={{ width: "20vw" }} min={0} max={3} step={0.1} value={contrast} valueLabelDisplay="on" onChange={(e) => contrastChange(e)} />
+                    </label>
 
-                    <label>gamma</label>
-                    <Slider aria-label="font" sx={{ width: "20vw" }} min={0} max={3} step={0.1} value={gamma} valueLabelDisplay="on" onChange={(e) => gammaChange(e)} />
+                    <label>
+                        gamma
+                        <Slider aria-label="font" size="small" sx={{ width: "20vw" }} min={0} max={3} step={0.1} value={gamma} valueLabelDisplay="on" onChange={(e) => gammaChange(e)} />
+                    </label>
                 </div>
             </div>
         </div>
