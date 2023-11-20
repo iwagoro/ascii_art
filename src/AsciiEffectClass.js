@@ -26,9 +26,15 @@ class AsciiEffect {
 
     //アスキーアートとなる文字を決定する
     #convertToSymbol(g) {
-        const asciiChars = "@%#abcdefghi*+=-:.";
-        const index = asciiChars.length - 1 - Math.floor((g / 255) * asciiChars.length - 1);
-        return asciiChars[index];
+        const string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        const asciiChars = "*+=-:.";
+        if (g > 150) {
+            const index = Math.floor(Math.random() * string.length);
+            return string[index];
+        } else {
+            const index = Math.floor(Math.random() * asciiChars.length);
+            return asciiChars[index];
+        }
     }
 
     //画像の明るさ、コントラスト、ガンマ補正を行う
