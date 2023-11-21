@@ -26,7 +26,7 @@ class AsciiEffect {
 
     //アスキーアートとなる文字を決定する
     #convertToSymbol(g) {
-        const string = ".*/●";
+        const string = ".▲▼■◆";
         const asciiChars = ".";
         const index = Math.round((g / 255) * string.length) - 1;
         if (index < 0) return string[0];
@@ -83,10 +83,11 @@ class AsciiEffect {
                     const color = "rgb(" + red + "," + green + "," + blue + ")";
                     const monochrome = "rgb(" + averageColorValue + "," + averageColorValue + "," + averageColorValue + ")";
                     const symbol = this.#convertToSymbol(averageColorValue);
-                    if (total > 20) this.#imageCellArray.push(new Cell(x, y, symbol, monochrome));
+                    if (total > 100) this.#imageCellArray.push(new Cell(x, y, symbol, color));
                 }
             }
         }
+        console.log(this.#imageCellArray.length);
     }
 
     //アスキーアートを描画する
