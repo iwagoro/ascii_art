@@ -14,12 +14,11 @@ function App() {
     useEffect(() => {
         const canvas = document.getElementById("canvas1");
         const ctx = canvas.getContext("2d");
-
         const image1 = new Image();
         image1.src = image;
 
         if (type) {
-            intervalRef.current = setInterval(() => copyFrame(), 1000 / 30);
+            intervalRef.current = setInterval(() => copyFrame(), 1000 / 60);
 
             // コンポーネントがアンマウントされたときにクリーンアップ
             return () => {
@@ -29,7 +28,7 @@ function App() {
             image1.onload = function initialize() {
                 canvas.width = image1.width;
                 canvas.height = image1.height;
-                let effect = new AsciiEffect(ctx, image1.width, image1.height, image1, font, bright, contrast, gamma);
+                let effect = new AsciiEffect(ctx, canvas.width, canvas.height, image1, font, bright, contrast, gamma);
                 effect.draw(res);
             }; //*/
         }
@@ -41,8 +40,9 @@ function App() {
 
         const video1 = document.getElementById("video");
         if (video1.videoWidth > 0 && video1.videoHeight > 0) {
-            canvas.width = video1.videoWidth;
-            canvas.height = video1.videoHeight;
+            canvas.width = 1920; //video1.videoWidth;
+            canvas.height = 1080; //video1.videoHeight;
+            console.log(video1.videoWidth, video1.videoHeight);
 
             let effect = new AsciiEffect(ctx, video1.videoWidth, video1.videoHeight, video1, font, bright, contrast, gamma);
             effect.draw(res);
@@ -51,12 +51,8 @@ function App() {
 
     return (
         <div className="App">
-            <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <div style={{ maxWidth: "50vw", maxHeight: "100vh", display: "flex", flexDirection: "column" }}>
-                    <video id="video" src={video} style={{ maxWidth: "50vw", maxHeight: "50vh" }} autoPlay loop></video>
-                    <canvas id="canvas1" style={{ maxWidth: "50vw", maxHeight: "50vh" }}></canvas>
-                </div>
-                <div className="controls" style={{ height: "100vh", maxHeight: "100vh", display: "flex", flexGrow: 1, flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "40px" }}>
+            <div className="container" style={{}}>
+                <div className="controls" style={{ height: "10vh", display: "flex", justifyContent: "center", alignItems: "center", gap: "40px" }}>
                     <label>
                         Image
                         <input
@@ -85,14 +81,37 @@ function App() {
                             }}
                         ></input>
                     </label>
-
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                     <label>
-                        Resolution <Slider aria-label="res" size="small" sx={{ width: "20vw" }} min={10} max={40} step={1} value={res} valueLabelDisplay="on" onChange={(e) => resChange(e)} />
+                        Resolution <Slider aria-label="res" size="small" sx={{ width: "20vw" }} min={1} max={100} step={1} value={res} valueLabelDisplay="on" onChange={(e) => resChange(e)} />
                     </label>
 
                     <label>
                         font size
-                        <Slider aria-label="font" size="small" sx={{ width: "20vw" }} min={6} max={40} step={1} value={font} valueLabelDisplay="on" onChange={(e) => fontChange(e)} />
+                        <Slider aria-label="font" size="small" sx={{ width: "20vw" }} min={1} max={100} step={1} value={font} valueLabelDisplay="on" onChange={(e) => fontChange(e)} />
+                    </label>
+                </div>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                    <video id="video" src={video} style={{ display: "none" }} autoPlay loop></video>
+                    <canvas id="canvas1"></canvas>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default App;
+
+/*
+
+                    <label>
+                        Resolution <Slider aria-label="res" size="small" sx={{ width: "20vw" }} min={1} max={100} step={1} value={res} valueLabelDisplay="on" onChange={(e) => resChange(e)} />
+                    </label>
+
+                    <label>
+                        font size
+                        <Slider aria-label="font" size="small" sx={{ width: "20vw" }} min={1} max={100} step={1} value={font} valueLabelDisplay="on" onChange={(e) => fontChange(e)} />
                     </label>
 
                     <label>
@@ -108,10 +127,5 @@ function App() {
                         gamma
                         <Slider aria-label="font" size="small" sx={{ width: "20vw" }} min={0} max={3} step={0.1} value={gamma} valueLabelDisplay="on" onChange={(e) => gammaChange(e)} />
                     </label>
-                </div>
-            </div>
-        </div>
-    );
-}
 
-export default App;
+*/

@@ -19,30 +19,27 @@ class AsciiEffect {
         this.#bright = bright;
         this.#contrast = contrast;
         this.#gamma = gamma;
-        this.#ctx.font = `bold ${font}px Verdana`;
+        this.#ctx.font = `bold ${font}px Pixelify Sans`;
         this.#ctx.drawImage(image1, 0, 0, this.#width, this.#height);
         this.#pixels = this.#ctx.getImageData(0, 0, this.#width, this.#height);
     }
 
     //アスキーアートとなる文字を決定する
     #convertToSymbol(g) {
-        const string = ".▲▼■◆";
-        const asciiChars = ".";
-        const index = Math.round((g / 255) * string.length) - 1;
-        if (index < 0) return string[0];
-        if (index >= string.length) return string[string.length - 1];
-        return string[index];
-        /*
-        if (g > 200) {
-            const index = Math.floor(Math.random() * string.length);
-            return string[index];
-        } else if (g > 100) {
-            const index = Math.floor(Math.random() * string2.length);
-            return string2[index];
-        } else {
-            const index = Math.floor(Math.random() * asciiChars.length);
-            return asciiChars[index];
-        }//*/
+        switch (g) {
+            case 100:
+                return ".";
+            case 60:
+                return "⁙";
+            case 150:
+                return "±";
+            case 200:
+                return "o";
+            case 250:
+                return "P";
+            default:
+                return " ";
+        }
     }
 
     //画像の明るさ、コントラスト、ガンマ補正を行う
@@ -57,6 +54,24 @@ class AsciiEffect {
         color = Math.pow(color / 255, this.#gamma) * 255;
 
         return color;
+    }
+
+    #ToConstantGragColor(color) {
+        if (color < 50) {
+            return 0;
+        } else if (color < 60) {
+            return 60;
+        } else if (color < 100) {
+            return 100;
+        } else if (color < 150) {
+            return 150;
+        } else if (color < 200) {
+            return 200;
+        } else if (color < 250) {
+            return 250;
+        } else {
+            return 255;
+        }
     }
 
     //画像をスキャンしてアスキーアートを作成する
@@ -79,11 +94,11 @@ class AsciiEffect {
                     blue = this.#ApplyEffectToRGB(blue);
 
                     const total = red + green + blue;
-                    const averageColorValue = total / 3;
+                    const averageColorValue = this.#ToConstantGragColor(total / 3);
                     const color = "rgb(" + red + "," + green + "," + blue + ")";
                     const monochrome = "rgb(" + averageColorValue + "," + averageColorValue + "," + averageColorValue + ")";
                     const symbol = this.#convertToSymbol(averageColorValue);
-                    if (total > 100) this.#imageCellArray.push(new Cell(x, y, symbol, color));
+                    if (averageColorValue >= 50) this.#imageCellArray.push(new Cell(x * 3, y * 3, symbol, monochrome));
                 }
             }
         }
@@ -93,7 +108,7 @@ class AsciiEffect {
     //アスキーアートを描画する
     #drawAscii() {
         console.log(this.#imageCellArray.length);
-        this.#ctx.clearRect(0, 0, this.#width, this.#height); //clear canvas #initialization
+        this.#ctx.clearRect(0, 0, 1920, 1080); //clear canvas #initialization
         for (let i = 0; i < this.#imageCellArray.length; i++) {
             this.#imageCellArray[i].draw(this.#ctx);
         }
